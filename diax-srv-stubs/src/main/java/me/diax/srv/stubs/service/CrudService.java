@@ -6,6 +6,6 @@ interface CrudService<T extends IdentifiableModel> {
 
     T getById(long id);
 
-    void save();
+    long save(T t);
 
 }
