@@ -7,7 +7,14 @@
     <packaging>pom</packaging>
     <version>1.0</version>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.targetEncoding>UTF-8</project.build.targetEncoding>
+    </properties>
+
     <modules>
         <module>diax-srv-app</module>
+        <module>diax-srv-stubs</module>
+        <module>diax-srv-client</module>
     </modules>
 </project>
