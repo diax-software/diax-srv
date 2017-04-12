@@ -7,7 +7,7 @@
         <artifactId>diax-srv</artifactId>
         <version>1.0</version>
     </parent>
-    <artifactId>diax-srv-client</artifactId>
+    <artifactId>diax-srv-app</artifactId>
 
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
