@@ -28,6 +28,6 @@ final class ServiceConfig extends ResourceConfig {
             public void onShutdown(Container container) {
             }
         });
-        packages(getClass().getPackage().getName() + ".services");
+        packages(getClass().getPackage().getName() + ".service");
     }
 }

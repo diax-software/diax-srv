@@ -4,8 +4,8 @@ import me.diax.srv.stubs.model.IdentifiableModel;
 
 interface CrudService<T extends IdentifiableModel> {
 
-    T getById(long id);
+    T getById(long id) throws ServiceException;
 
-    long save(T t);
+    long save(T t) throws ServiceException;
 
 }

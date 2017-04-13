@@ -31,12 +31,7 @@
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
             <version>4.1.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>aopalliance</groupId>
-                    <artifactId>aopalliance</artifactId>
-                </exclusion>
-            </exclusions>
+            <classifier>no_aop</classifier>
         </dependency>
         <dependency>
             <groupId>com.knockturnmc</groupId>
