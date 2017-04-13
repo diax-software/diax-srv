@@ -10,7 +10,7 @@
     <artifactId>diax-srv-app</artifactId>
 
     <properties>
-        <jersey.version>2.22.2</jersey.version>
+        <jersey.version>2.25.1</jersey.version>
     </properties>
 
     <dependencies>
@@ -20,6 +20,7 @@
             <artifactId>jersey-container-jetty-http</artifactId>
             <version>${jersey.version}</version>
         </dependency>
+
         <!-- Jersey -->
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
@@ -36,13 +37,28 @@
             <artifactId>jersey-media-moxy</artifactId>
             <version>${jersey.version}</version>
         </dependency>
+
+        <!-- Dependency Injection -->
         <dependency>
             <groupId>org.glassfish.hk2</groupId>
             <artifactId>guice-bridge</artifactId>
-            <version>2.5.0-b03</version>
+            <version>2.5.0-b36</version>
             <scope>compile</scope>
         </dependency>
 
+        <!-- Database Libraries -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>2.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.40</version>
+        </dependency>
+
+        <!-- Module Integration -->
         <dependency>
             <groupId>me.diax</groupId>
             <artifactId>diax-srv-stubs</artifactId>
