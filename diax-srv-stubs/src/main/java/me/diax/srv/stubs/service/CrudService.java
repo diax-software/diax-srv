@@ -6,6 +6,6 @@ interface CrudService<T extends IdentifiableModel> {
 
     T getById(long id) throws ServiceException;
 
-    long save(T t) throws ServiceException;
+    void save(T t) throws ServiceException;
 
 }

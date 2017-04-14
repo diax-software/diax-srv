@@ -2,6 +2,7 @@ package me.diax.srv.database;
 
 import com.google.inject.AbstractModule;
 import com.knockturnmc.api.util.sql.SqlDatasource;
+import me.diax.srv.database.connector.ConnectorModule;
 
 import java.io.File;
 
@@ -20,5 +21,7 @@ public class DatabaseModule extends AbstractModule {
     protected void configure() {
         bind(DatabaseProperties.class).toInstance(properties);
         bind(SqlDatasource.class).to(SqlConnectionPool.class);
+
+        install(new ConnectorModule());
     }
 }

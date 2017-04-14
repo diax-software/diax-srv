@@ -1,11 +1,13 @@
 CREATE TABLE system (
   setting VARCHAR(128) NOT NULL,
-  value VARCHAR(128) NULL,
+  value   VARCHAR(128) NULL,
   CONSTRAINT pk_system PRIMARY KEY (setting)
-) ENGINE = InnoDB;
+)
+  ENGINE = InnoDB;
 
-  CREATE TABLE profile (
-  id BIGINT NOT NULL AUTO_INCREMENT,
+CREATE TABLE profile (
+  id BIGINT NOT NULL,
   xp BIGINT NOT NULL DEFAULT 0,
- CONSTRAINT pk_profile PRIMARY KEY (id)
-) ENGINE = InnoDB;
+  CONSTRAINT pk_profile PRIMARY KEY (id)
+)
+  ENGINE = InnoDB;

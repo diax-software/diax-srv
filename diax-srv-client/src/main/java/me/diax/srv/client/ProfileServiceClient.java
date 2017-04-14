@@ -27,10 +27,9 @@ class ProfileServiceClient extends DiaxServiceClient implements ProfileService {
     }
 
     @Override
-    public long save(Profile profile) throws ServiceException {
+    public void save(Profile profile) throws ServiceException {
         try {
-            String response = client.doPut(endpoint + "profile", marshall(profile), TYPE);
-            return Long.valueOf(response);
+            client.doPut(endpoint + "profile/", marshall(profile), TYPE);
         } catch (Exception e) {
             throw new ServiceException(e);
         }
