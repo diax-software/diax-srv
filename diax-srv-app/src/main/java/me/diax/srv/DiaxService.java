@@ -4,8 +4,8 @@ import com.google.inject.Binder;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.knockturnmc.api.util.sql.SqlDatasource;
 import me.diax.srv.database.DatabaseModule;
-import me.diax.srv.database.ServiceInstaller;
 import me.diax.srv.web.StandaloneServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,11 +38,8 @@ public class DiaxService implements Module {
 
     private void init() throws Exception {
         try {
-            //Intialize database
-            ServiceInstaller database = injector.getInstance(ServiceInstaller.class);
-            if (!database.updateSchema()) {
-                return;
-            }
+            //Initializes Database
+            injector.getInstance(SqlDatasource.class);
 
             StandaloneServer server = new StandaloneServer(properties, injector);
             server.start();
