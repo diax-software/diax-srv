@@ -6,7 +6,10 @@ import me.diax.srv.database.dao.ProfileDao;
 import me.diax.srv.stubs.model.Profile;
 
 import javax.inject.Inject;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 class ProfileConnector extends SqlConnector implements ProfileDao {
 
@@ -19,7 +22,7 @@ class ProfileConnector extends SqlConnector implements ProfileDao {
     public Profile get(long id) throws SQLException {
         try (Connection connection = datasource.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(
-                    "SELECT xp FROM profile WHERE id = ?;"
+                    "SELECT xp, balance FROM profile WHERE id = ?;"
             )) {
                 ps.setLong(1, id);
                 ResultSet rs = ps.executeQuery();
@@ -30,6 +33,7 @@ class ProfileConnector extends SqlConnector implements ProfileDao {
                 Profile profile = new Profile();
                 profile.setId(id);
                 profile.setXp(rs.getLong("xp"));
+                profile.setBalance(rs.getLong("balance"));
 
                 return profile;
             }
@@ -43,13 +47,12 @@ class ProfileConnector extends SqlConnector implements ProfileDao {
         }
         try (Connection connection = datasource.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(
-                    "INSERT INTO profile (id, xp) VALUES (?, ?) " +
-                    "ON DUPLICATE KEY UPDATE xp = ?;"
+                    "CALL proc_save_profile(?, ?, ?);"
             )) {
                 ps.setLong(1, profile.getId());
-
                 ps.setLong(2, profile.getXp());
-                ps.setLong(3, profile.getXp());
+                ps.setLong(3, profile.getBalance());
+
                 ps.execute();
             }
         }
