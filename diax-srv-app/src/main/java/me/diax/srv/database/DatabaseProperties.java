@@ -4,7 +4,11 @@ import com.knockturnmc.api.util.NamedProperties;
 import com.knockturnmc.api.util.Property;
 import lombok.Getter;
 
-final class DatabaseProperties extends NamedProperties {
+import java.io.Serializable;
+
+final class DatabaseProperties extends NamedProperties implements Serializable {
+
+    private static final long serialVersionUID = -2580963340292493348L;
 
     @Getter
     @Property(
@@ -24,5 +28,9 @@ final class DatabaseProperties extends NamedProperties {
     @Getter
     @Property(value = "hikari.connectionInitSql", defaultvalue = "SET TIME_ZONE = '+00:00';")
     private String connectionInitSql;
+
+    @Getter
+    @Property(value = "database.autoupdate", defaultvalue = "true")
+    private boolean usingAutoUpdate;
 
 }

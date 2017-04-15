@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
  * @author Sven Olderaan (admin@heaven-craft.net)
  */
 @Singleton
-public class ServiceInstaller {
+class ServiceInstaller {
 
     private static final String SCHEMA_DIR = "schema";
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -56,7 +56,7 @@ public class ServiceInstaller {
      *
      * @return the version of the database
      */
-    private Version getVersion() {
+    Version getVersion() {
         try (Connection connection = datasource.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(
                     "SELECT value FROM system WHERE setting = 'version';"
@@ -73,11 +73,21 @@ public class ServiceInstaller {
     }
 
     /**
+     * Gets the newest available version of a database revision
+     *
+     * @return the newest version
+     */
+    Version getNewest() {
+        return sqlSchema.lastKey();
+    }
+
+    /**
      * Runs all DDL scripts that are bundled with the application
      *
      * @return a boolean to indicate success
      */
-    public boolean updateSchema() {
+    boolean updateSchema() {
+        logger.info("Installing version: " + getNewest());
         try (Connection connection = datasource.getConnection()) {
             for (Map.Entry<Version, String> script : sqlSchema.entrySet()) {
                 Version installedVersion = getVersion();
@@ -101,10 +111,9 @@ public class ServiceInstaller {
                     ps.execute();
                 }
             }
-            logger.info("Latest version of database installed: " + getVersion());
             return true;
         } catch (SQLException | IOException e) {
-            logger.error("Failed to install.", e);
+            logger.error("Failed to install", e);
         }
         return false;
     }
