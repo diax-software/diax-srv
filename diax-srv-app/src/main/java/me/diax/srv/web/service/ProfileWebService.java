@@ -39,6 +39,9 @@ public class ProfileWebService implements ProfileService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
     public void save(Profile profile) {
+        if (profile == null) {
+            throw new BadRequestException("No profile found in payload");
+        }
         if (profile.isNew()) {
             throw new BadRequestException("Profile needs to have an ID");
         }

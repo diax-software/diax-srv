@@ -7,6 +7,7 @@ import me.diax.srv.stubs.service.ServiceException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import java.util.Objects;
 
 @Singleton
 class ProfileServiceClient extends DiaxServiceClient implements ProfileService {
@@ -18,20 +19,15 @@ class ProfileServiceClient extends DiaxServiceClient implements ProfileService {
 
     @Override
     public Profile getById(long id) throws ServiceException {
-        try {
-            String response = client.doGet(endpoint + "profile/" + id, TYPE);
-            return unmarshall(response, Profile.class);
-        } catch (Exception e) {
-            throw new ServiceException(e);
-        }
+        String response = doGet(endpoint + "profile/" + id, TYPE);
+        return unmarshall(response, Profile.class);
     }
 
     @Override
     public void save(Profile profile) throws ServiceException {
-        try {
-            client.doPut(endpoint + "profile/", marshall(profile), TYPE);
-        } catch (Exception e) {
-            throw new ServiceException(e);
+        String response = doPut(endpoint + "profile/", marshall(profile), TYPE);
+        if (!Objects.equals("", response)) {
+            throw unmarshall(doPut(endpoint + "profile/", marshall(profile), TYPE), ServiceException.class);
         }
     }
 }
