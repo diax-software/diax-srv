@@ -19,6 +19,8 @@
         <module>diax-srv-stubs</module>
         <module>diax-srv-client</module>
         <module>diax-srv-cache</module>
+        <module>diax-srv-cache-client</module>
+        <module>diax-srv-common</module>
     </modules>
 
     <repositories>

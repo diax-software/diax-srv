@@ -1,4 +1,4 @@
-package me.diax.cache;
+package me.diax.srv.cache;
 
 import java.util.Map;
 

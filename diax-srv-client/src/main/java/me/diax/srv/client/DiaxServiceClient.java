@@ -1,47 +1,28 @@
 package me.diax.srv.client;
 
+import me.diax.srv.common.DiaxJsonContext;
 import me.diax.srv.stubs.service.ServiceException;
-import org.eclipse.persistence.exceptions.DescriptorException;
-import org.reflections.Reflections;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.transform.stream.StreamSource;
-import java.io.*;
+import javax.inject.Inject;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Objects;
-import java.util.Set;
 
 class DiaxServiceClient {
 
-    static final String TYPE = "application/json";
+    final DiaxJsonContext context;
+    @Inject
+    String endpoint;
 
-    final String endpoint;
 
-    private final Unmarshaller unmarshaller;
-    private final Marshaller marshaller;
-
-    DiaxServiceClient(String endpoint) {
+    DiaxServiceClient() {
         try {
-            this.endpoint = endpoint.endsWith("/") ? endpoint : endpoint + "/";
-
-            Reflections reflections = new Reflections("me.diax.srv.stubs");
-            Set<Class<?>> types = reflections.getTypesAnnotatedWith(XmlRootElement.class);
-            JAXBContext context = JAXBContext.newInstance(types.toArray(new Class[types.size()]));
-
-            unmarshaller = context.createUnmarshaller();
-            unmarshaller.setProperty("eclipselink.media-type", TYPE);
-            unmarshaller.setProperty("eclipselink.json.include-root", false);
-
-            marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.setProperty("eclipselink.media-type", TYPE);
-            marshaller.setProperty("eclipselink.json.include-root", false);
-        } catch (JAXBException e) {
+            context = DiaxJsonContext.getInstance();
+        } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
     }
@@ -129,28 +110,6 @@ class DiaxServiceClient {
             connection.setRequestProperty("Accept", accept);
             return getResponse(connection);
         } catch (IOException e) {
-            throw new ServiceException(e, 0);
-        }
-    }
-
-    <T> T unmarshall(String obj, Class<T> type) throws ServiceException {
-        try (StringReader reader = new StringReader(obj)) {
-            try {
-                return unmarshaller.unmarshal(new StreamSource(reader), type).getValue();
-            } catch (DescriptorException e) {
-                reader.reset();
-                throw unmarshaller.unmarshal(new StreamSource(reader), ServiceException.class).getValue();
-            }
-        } catch (IOException | JAXBException e) {
-            throw new ServiceException(e, 0);
-        }
-    }
-
-    String marshall(Object obj) throws ServiceException {
-        try (StringWriter writer = new StringWriter()) {
-            marshaller.marshal(obj, writer);
-            return writer.toString();
-        } catch (Exception e) {
             throw new ServiceException(e, 0);
         }
     }

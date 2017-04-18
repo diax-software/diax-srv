@@ -7,12 +7,17 @@
         <artifactId>diax-srv</artifactId>
         <version>1.0</version>
     </parent>
-    <artifactId>diax-srv-client</artifactId>
+    <artifactId>diax-srv-cache-client</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>me.diax</groupId>
-            <artifactId>diax-srv-cache-client</artifactId>
+            <artifactId>diax-srv-cache</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>me.diax</groupId>
+            <artifactId>diax-srv-common</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

@@ -1,4 +1,4 @@
-package me.diax.cache;
+package me.diax.srv.cache;
 
 /**
  * Represents a Redis PubSub subscriber

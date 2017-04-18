@@ -1,4 +1,4 @@
-package me.diax.cache;
+package me.diax.srv.cache;
 
 import com.knockturnmc.api.util.NamedProperties;
 import com.knockturnmc.api.util.Property;

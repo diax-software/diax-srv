@@ -1,4 +1,4 @@
-package me.diax.cache;
+package me.diax.srv.cache;
 
 /**
  * Thrown when a subscriber could not be subscribed

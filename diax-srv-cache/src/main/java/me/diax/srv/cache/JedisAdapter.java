@@ -1,4 +1,4 @@
-package me.diax.cache;
+package me.diax.srv.cache;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

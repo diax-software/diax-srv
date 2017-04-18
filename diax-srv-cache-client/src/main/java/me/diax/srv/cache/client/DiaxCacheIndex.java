@@ -1,9 +1,9 @@
-package me.diax.cache;
+package me.diax.srv.cache.client;
 
 /**
  * Static list of indices used by the cache
  */
-public enum DiaxCacheIndex {
+enum DiaxCacheIndex {
     PROFILE(1);
 
     private final int index;

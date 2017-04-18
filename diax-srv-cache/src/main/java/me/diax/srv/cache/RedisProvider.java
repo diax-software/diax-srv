@@ -1,4 +1,4 @@
-package me.diax.cache;
+package me.diax.srv.cache;
 
 /**
  * @author Sven Olderaan (s.olderaan@i-real.nl)
@@ -13,16 +13,6 @@ public interface RedisProvider {
      * @throws IllegalArgumentException if index is negative
      */
     Redis getSession(int index);
-
-    /**
-     * Gets a session with the specified cache index
-     *
-     * @param index the index
-     * @return the session
-     */
-    default Redis getSession(DiaxCacheIndex index) {
-        return getSession(index.getIndex());
-    }
 
     /**
      * Subscribes a subscriber to a channel
