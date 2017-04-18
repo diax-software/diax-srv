@@ -6,13 +6,23 @@ package me.diax.cache;
 public interface RedisProvider {
 
     /**
-     * Gets an index by id, and opens a session. This session must be closed!
+     * Getsand opens a session and assigns the specified index. This session must be closed!
      *
      * @param index the index
      * @return the session
      * @throws IllegalArgumentException if index is negative
      */
     Redis getSession(int index);
+
+    /**
+     * Gets a session with the specified cache index
+     *
+     * @param index the index
+     * @return the session
+     */
+    default Redis getSession(DiaxCacheIndex index) {
+        return getSession(index.getIndex());
+    }
 
     /**
      * Subscribes a subscriber to a channel
