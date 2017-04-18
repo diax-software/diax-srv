@@ -23,4 +23,12 @@
         </resources>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>diax-release</id>
+            <name>Diax Releases</name>
+            <url>https://repo.knockturnmc.com/content/repositories/diax-release/</url>
+        </repository>
+    </distributionManagement>
+
 </project>
