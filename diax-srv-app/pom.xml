@@ -53,6 +53,11 @@
             <artifactId>diax-srv-stubs</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>me.diax</groupId>
+            <artifactId>diax-srv-cache-client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

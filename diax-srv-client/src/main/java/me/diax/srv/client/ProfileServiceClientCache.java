@@ -5,6 +5,7 @@ import me.diax.srv.stubs.model.Profile;
 import me.diax.srv.stubs.service.ServiceException;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 @Singleton
@@ -13,7 +14,8 @@ class ProfileServiceClientCache extends ProfileServiceClient {
     private final ProfileCache cache;
 
     @Inject
-    ProfileServiceClientCache(ProfileCache cache) {
+    ProfileServiceClientCache(@Named("endpoint") String endpoint, ProfileCache cache) {
+        super(endpoint);
         this.cache = cache;
     }
 

@@ -3,7 +3,6 @@ package me.diax.srv.client;
 import me.diax.srv.common.DiaxJsonContext;
 import me.diax.srv.stubs.service.ServiceException;
 
-import javax.inject.Inject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,11 +14,11 @@ import java.util.Objects;
 class DiaxServiceClient {
 
     final DiaxJsonContext context;
-    @Inject
-    String endpoint;
+    final String endpoint;
 
 
-    DiaxServiceClient() {
+    DiaxServiceClient(String endpoint) {
+        this.endpoint = endpoint;
         try {
             context = DiaxJsonContext.getInstance();
         } catch (ServiceException e) {
