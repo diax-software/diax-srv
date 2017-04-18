@@ -5,6 +5,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.knockturnmc.api.util.sql.SqlDatasource;
+import me.diax.srv.cache.RedisModule;
+import me.diax.srv.cache.client.CacheClientModule;
 import me.diax.srv.database.DatabaseModule;
 import me.diax.srv.web.StandaloneServer;
 import org.slf4j.Logger;
@@ -52,5 +54,7 @@ public class DiaxService implements Module {
     public void configure(Binder binder) {
         binder.bind(DiaxServiceProperties.class).toInstance(properties);
         binder.install(new DatabaseModule("database.properties", configurationDirectory));
+        binder.install(new RedisModule("redis.properties", configurationDirectory));
+        binder.install(new CacheClientModule());
     }
 }
