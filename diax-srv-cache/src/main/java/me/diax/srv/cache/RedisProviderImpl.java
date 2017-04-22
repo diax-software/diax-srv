@@ -74,6 +74,11 @@ class RedisProviderImpl implements RedisProvider {
         doVoidCall(jedis -> jedis.publish(channel, data));
     }
 
+    @Override
+    public void shutdown() {
+        pool.destroy();
+    }
+
     /**
      * Checks if the specified subscriber is already registered with this {@code RedisProviderImpl}
      *

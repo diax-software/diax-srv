@@ -51,4 +51,9 @@ public interface RedisProvider {
      */
     void publish(String channel, String data);
 
+    /**
+     * Shuts down this provider, and releases any resources.
+     */
+    void shutdown();
+
 }
