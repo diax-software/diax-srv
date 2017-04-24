@@ -91,8 +91,8 @@ class ServiceInstaller {
         try (Connection connection = datasource.getConnection()) {
             for (Map.Entry<Version, String> script : sqlSchema.entrySet()) {
                 Version installedVersion = getVersion();
-                Version scriptVerson = script.getKey();
-                if (installedVersion != null && scriptVerson.compareTo(installedVersion) <= 0) {
+                Version scriptVersion = script.getKey();
+                if (installedVersion != null && scriptVersion.compareTo(installedVersion) <= 0) {
                     continue;
                 }
                 logger.info("Installing database script: " + script.getValue());
@@ -106,8 +106,8 @@ class ServiceInstaller {
                                 "VALUES ('version', ?) " +
                                 "ON DUPLICATE KEY UPDATE value = ?;"
                 )) {
-                    ps.setString(1, scriptVerson.getVersion());
-                    ps.setString(2, scriptVerson.getVersion());
+                    ps.setString(1, scriptVersion.getVersion());
+                    ps.setString(2, scriptVersion.getVersion());
                     ps.execute();
                 }
             }
