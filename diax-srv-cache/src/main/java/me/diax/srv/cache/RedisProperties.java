@@ -7,7 +7,7 @@ import lombok.Getter;
 /**
  * Properties for redis
  */
-class RedisProperties extends NamedProperties {
+public class RedisProperties extends NamedProperties {
 
     @Getter
     @Property(value = "redis.host", defaultvalue = "localhost")

@@ -15,13 +15,13 @@ import java.util.function.Function;
  * Pooled implementation for Redis
  */
 @Singleton
-class RedisProviderImpl implements RedisProvider {
+class RedisConnectionPool implements RedisProvider {
 
     private final Map<Subscriber, JedisAdapter> subscribers;
     private final JedisPool pool;
 
     @Inject
-    RedisProviderImpl(RedisProperties properties) {
+    RedisConnectionPool(RedisProperties properties) {
         subscribers = new HashMap<>();
         pool = new JedisPool(
                 new JedisPoolConfig(),

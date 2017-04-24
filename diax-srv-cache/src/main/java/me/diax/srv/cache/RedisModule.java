@@ -27,6 +27,6 @@ public class RedisModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(RedisProperties.class).toInstance(properties);
-        bind(RedisProvider.class).to(RedisProviderImpl.class);
+        bind(RedisProvider.class).to(RedisConnectionPool.class);
     }
 }
