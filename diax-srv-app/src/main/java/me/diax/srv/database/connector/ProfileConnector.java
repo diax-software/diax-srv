@@ -86,7 +86,11 @@ class ProfileConnector extends SqlConnector implements ProfileDao {
         profile.setId(rs.getLong("id"));
         profile.setXp(rs.getLong("xp"));
         profile.setBalance(rs.getLong("balance"));
+
         profile.setDiscordId(rs.getLong("discordid"));
+        if (rs.wasNull()) {
+            profile.setDiscordId(null);
+        }
 
         return profile;
     }
