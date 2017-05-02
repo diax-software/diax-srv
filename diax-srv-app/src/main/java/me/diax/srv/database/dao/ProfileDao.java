@@ -10,4 +10,6 @@ public interface ProfileDao extends Dao {
     Profile get(long id) throws SQLException;
 
     void save(Profile profile) throws SQLException;
+
+    Profile getByDiscordId(long discordId) throws SQLException;
 }

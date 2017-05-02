@@ -6,10 +6,7 @@ import me.diax.srv.database.dao.ProfileDao;
 import me.diax.srv.stubs.model.Profile;
 
 import javax.inject.Inject;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 class ProfileConnector extends SqlConnector implements ProfileDao {
 
@@ -22,39 +19,76 @@ class ProfileConnector extends SqlConnector implements ProfileDao {
     public Profile get(long id) throws SQLException {
         try (Connection connection = datasource.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(
-                    "SELECT xp, balance FROM profile WHERE id = ?;"
+                    "SELECT profile.id, xp, balance, discordid " +
+                            "FROM profile " +
+                            "RIGHT OUTER JOIN profile_discord ON profile_discord.id = profile.id " +
+                            "WHERE profile.id = ?;"
             )) {
                 ps.setLong(1, id);
                 ResultSet rs = ps.executeQuery();
-                if (!rs.next()) {
-                    return null;
-                }
+                return renderProfile(rs);
+            }
+        }
+    }
 
-                Profile profile = new Profile();
-                profile.setId(id);
-                profile.setXp(rs.getLong("xp"));
-                profile.setBalance(rs.getLong("balance"));
-
-                return profile;
+    @Override
+    public Profile getByDiscordId(long discordId) throws SQLException {
+        try (Connection connection = datasource.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(
+                    "SELECT profile.id, balance, xp, discordid " +
+                            "FROM profile_discord " +
+                            "JOIN profile ON profile_discord.id = profile.id " +
+                            "WHERE profile_discord.discordid = ?;"
+            )) {
+                ps.setLong(1, discordId);
+                ResultSet rs = ps.executeQuery();
+                return renderProfile(rs);
             }
         }
     }
 
     @Override
     public void save(Profile profile) throws SQLException {
-        if (profile.isNew()) {
-            throw new IllegalArgumentException("Cannot save profile without an ID");
-        }
         try (Connection connection = datasource.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(
-                    "CALL proc_save_profile(?, ?, ?);"
+                    "CALL proc_save_profile(?, ?, ?, ?);"
             )) {
-                ps.setLong(1, profile.getId());
+                if (profile.getId() != null) {
+                    ps.setLong(1, profile.getId());
+                } else {
+                    ps.setNull(1, Types.BIGINT);
+                }
                 ps.setLong(2, profile.getXp());
                 ps.setLong(3, profile.getBalance());
 
+                if (profile.getDiscordId() != null) {
+                    ps.setLong(4, profile.getDiscordId());
+                } else {
+                    ps.setNull(4, Types.BIGINT);
+                }
                 ps.execute();
             }
         }
     }
+
+    /**
+     * Renders a profile using the ResultSet that the method {@link #get(long)} uses.
+     *
+     * @param rs the resultset right after querying
+     * @return the Profile or {@code null} if no profile was found
+     */
+    private Profile renderProfile(ResultSet rs) throws SQLException {
+        if (!rs.next()) {
+            return null;
+        }
+
+        Profile profile = new Profile();
+        profile.setId(rs.getLong("id"));
+        profile.setXp(rs.getLong("xp"));
+        profile.setBalance(rs.getLong("balance"));
+        profile.setDiscordId(rs.getLong("discordid"));
+
+        return profile;
+    }
+
 }

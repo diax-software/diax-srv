@@ -40,6 +40,20 @@ public class ProfileWebService implements ProfileService {
         }
     }
 
+    @Override
+    public Profile getByDiscordId(long discordId) throws ServiceException {
+        try {
+            Profile profile = profileDao.getByDiscordId(discordId);
+            if (profile == null) {
+                throw new NotFoundException("No profile was found with discordId: " + discordId);
+            }
+            cache.set(profile);
+            return profile;
+        } catch (SQLException e) {
+            throw new InternalServerErrorException(e);
+        }
+    }
+
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Override

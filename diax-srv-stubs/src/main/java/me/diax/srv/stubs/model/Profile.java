@@ -19,10 +19,7 @@ import java.io.Serializable;
 public class Profile extends IdentifiableModel implements Serializable {
     private static final long serialVersionUID = -7330255948705861599L;
 
+    private Long discordId;
     private long xp;
     private long balance;
-
-    public Profile(long id) {
-        setId(id);
-    }
 }
