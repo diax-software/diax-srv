@@ -37,6 +37,21 @@ class ProfileCacheClient implements ProfileCache {
     }
 
     @Override
+    public Profile getByDiscordId(long discordId) throws ServiceException {
+        try (Redis redis = provider.getSession(DiaxCacheIndex.PROFILE_DISCORD.getIndex())) {
+            String data = redis.get(Long.toString(discordId));
+            if (data == null) {
+                return null;
+            }
+            redis.select(DiaxCacheIndex.PROFILE.getIndex());
+            data = redis.get(data);
+            return data == null ? null : context.deserialize(data, Profile.class);
+        } catch (Exception e) {
+            throw new CacheException(e);
+        }
+    }
+
+    @Override
     public void set(Profile profile) throws ServiceException {
         if (profile == null || profile.isNew()) {
             throw new IllegalArgumentException("Cannot store profile without an ID");
@@ -45,6 +60,11 @@ class ProfileCacheClient implements ProfileCache {
         try (Redis redis = provider.getSession(DiaxCacheIndex.PROFILE.getIndex())) {
             String data = context.serialize(profile);
             redis.set(profile.getId().toString(), data);
+
+            if (profile.getDiscordId() != null) {
+                redis.select(DiaxCacheIndex.PROFILE_DISCORD.getIndex());
+                redis.set(String.valueOf(profile.getDiscordId()), String.valueOf(profile.getId()));
+            }
         } catch (Exception e) {
             throw new CacheException(e);
         }

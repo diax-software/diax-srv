@@ -4,7 +4,8 @@ package me.diax.srv.cache.client;
  * Static list of indices used by the cache
  */
 enum DiaxCacheIndex {
-    PROFILE(1);
+    PROFILE(1),
+    PROFILE_DISCORD(2);
 
     private final int index;
 

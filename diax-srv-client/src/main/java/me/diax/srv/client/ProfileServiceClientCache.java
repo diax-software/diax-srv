@@ -24,4 +24,10 @@ class ProfileServiceClientCache extends ProfileServiceClient {
         Profile cached = cache.get(id);
         return cached == null ? super.getById(id) : cached;
     }
+
+    @Override
+    public Profile getByDiscordId(long discordId) throws ServiceException {
+        Profile cached = cache.getByDiscordId(discordId);
+        return cached == null ? super.getByDiscordId(discordId) : cached;
+    }
 }

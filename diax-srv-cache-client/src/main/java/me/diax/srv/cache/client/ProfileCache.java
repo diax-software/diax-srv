@@ -18,6 +18,15 @@ public interface ProfileCache {
     Profile get(long id) throws ServiceException;
 
     /**
+     * Gets a profile from the cache by its discordId Returns {@code null} when profile does not exist in cache
+     *
+     * @param discordId the discordId
+     * @return the profile or {@code null}
+     * @throws ServiceException if querying failed
+     */
+    Profile getByDiscordId(long discordId) throws ServiceException;
+
+    /**
      * Sets a profile in the cache
      *
      * @param profile the profile
