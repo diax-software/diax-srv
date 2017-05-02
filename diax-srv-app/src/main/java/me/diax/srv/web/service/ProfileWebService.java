@@ -40,8 +40,11 @@ public class ProfileWebService implements ProfileService {
         }
     }
 
+    @GET
+    @Path("/discord/{discordId}")
+    @Produces(MediaType.APPLICATION_JSON)
     @Override
-    public Profile getByDiscordId(long discordId) throws ServiceException {
+    public Profile getByDiscordId(@PathParam("discordId") long discordId) throws ServiceException {
         try {
             Profile profile = profileDao.getByDiscordId(discordId);
             if (profile == null) {
@@ -58,10 +61,6 @@ public class ProfileWebService implements ProfileService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Override
     public void save(Profile profile) throws ServiceException {
-        if (profile.isNew()) {
-            throw new BadRequestException("Profile needs to have an ID");
-        }
-
         try {
             profileDao.save(profile);
             cache.set(profile);

@@ -31,4 +31,10 @@ class ProfileServiceClient extends DiaxServiceClient implements ProfileService {
                     ServiceException.class);
         }
     }
+
+    @Override
+    public Profile getByDiscordId(long discordId) throws ServiceException {
+        String response = doGet(endpoint + "profile/discord/" + discordId, context.getMediaType());
+        return context.deserialize(response, Profile.class);
+    }
 }
